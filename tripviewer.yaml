@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tripviewer-deployment
+  namespace: web
+  labels:
+    app: tripviewer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tripviewer
+  template:
+    metadata:
+      labels:
+        app: tripviewer
+    spec:
+      containers:
+      - name: tripviewer
+        image: registrynpi4760.azurecr.io/tripinsights/tripviewer:latest
+        env:
+        - name: TRIPS_API_ENDPOINT
+          value: "http://trips-deployment:80"
+        - name: USERPROFILE_API_ENDPOINT
+          value: "http://userprofile-deployment:80"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: rg-aks
+  name: tripviewer
+spec:
+  loadBalancerIP: 104.42.221.57
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: tripviewer
