@@ -23,6 +23,6 @@ roleRef:
   kind: Role
   name: web-dev-user-full-access
 subjects:
-- kind: User
+- kind: Group
   namespace: web
-  name: ab74788e-0134-4521-9a99-38ffb2fcf77c
+  name: abde7bf8-6791-46d7-b4cd-a914c95d8c26

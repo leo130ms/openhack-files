@@ -27,10 +27,13 @@ spec:
          -
           name: SQL_PASSWORD
           valueFrom:
-            secretKeyRef:
-              name: secret-db
-              key: db-password
-         -
+           name: sqladminnPi4760
+          csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+          secretProviderClass: "azure-kvname-system-msi"
+         - 
           name: SQL_SERVER
           valueFrom:
             secretKeyRef:
@@ -46,3 +49,5 @@ spec:
         image: registrynpi4760.azurecr.io/tripinsights/trips:latest
         ports:
          - containerPort: 80
+
+         
